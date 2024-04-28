@@ -1,8 +1,7 @@
-# Install
-`$ pip3 install -U proofproposition`
+from argparse import ArgumentParser
+from .prove import prove
 
-# Description
-```
+description = '''
 ### BNF of Proposition:
     Expr
         = [Premise] '|-' Imply
@@ -52,10 +51,21 @@
      A, A->B
     ---------
         B
-```
+'''
 
-# Command
-`$ proof "A |- B->A"`
+def main():
+    parser = ArgumentParser(description='[Propositional Logic]')
+    parser.add_argument("proposition", type=str, help='input proposition here')
+    args = parser.parse_args()
+    if args.proposition == 'help':
+        print(description)
+    else:
+        step = prove(args.proposition)
+        if isinstance(step, list):
+            for s in step:
+                print(s)
+        else:
+            print(step)
 
-# Contact us
-<may.xiaoya.zhang@gmail.com>
+if __name__ == '__main__':
+    main()
